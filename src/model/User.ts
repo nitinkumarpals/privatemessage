@@ -1,8 +1,8 @@
 import mongoose,{Schema, Document} from "mongoose";
 
 export interface Message extends Document {
-    content: string;
-    createdAt: Date;//string in typescript is in small
+    content: string;//string in typescript is in small
+    createdAt: Date;
 }
 
 const messageSchema: Schema<Message> = new Schema({
