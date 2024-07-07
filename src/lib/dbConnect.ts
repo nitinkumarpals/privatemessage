@@ -13,7 +13,7 @@ async function dbConnect(): Promise<void> {//void here means that we don't care 
     }
 
     try {
-        const db = await mongoose.connect(process.env.MONGODB_URI || '');
+        const db = await mongoose.connect(process.env.MONGODB_URI || '', {});
 
         // `mongoose.connect()` returns a Mongoose instance, which contains a list of connections.
         // We are interested in the first connection (index 0) which represents the primary connection.
