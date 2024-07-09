@@ -32,7 +32,7 @@ export async function GET(request: Request) {
         return Response.json({ success: true, messages: user[0].messages }, { status: 200 });
     } catch (error) {
 
-        console.log("Failed to get messages");
+        console.log("An unexpected error occurred while getting messages", error);
         return Response.json({ success: false, message: 'Failed to get messages' }, { status: 500 });
     }
 
