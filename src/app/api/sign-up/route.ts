@@ -35,6 +35,7 @@ export async function POST(request: Request) {
                     { success: false, message: "email already exists" }, { status: 400 }
                 );
             } else {
+                
                 console.log("Email exists but is not verified, updating user with new verification code");
                 const hashedPassword = await bcrypt.hash(password, 10);
                 existingUserVerifiedByEmail.password = hashedPassword;
@@ -74,9 +75,17 @@ export async function POST(request: Request) {
         }
 
         console.log("User created successfully");
-        return NextResponse.json(
-            { success: true, message: "user created successfully" }, { status: 200 }
-        );
+        const response = {
+            success: true,
+            message: "user created successfully",
+            emailResponse: {
+                success: emailResponse.success,
+                message: "verification email sent successfully"
+            }
+        };
+        
+        // Return the response
+        return NextResponse.json(response, { status: 200 });
 
     } catch (error) {
         console.error("Error:", error);

@@ -8,13 +8,26 @@ export async function sendVerificationEmail(
     verifyCode: string
 ): Promise<ApiResponse> {
     try {
+        const apiKey = process.env.RESEND_API_KEY;
+        if (!apiKey) {
+            throw new Error("API key not set");
+        }
         console.log("Sending email to:", email);
-        await resend.emails.send({
+
+        const emailResponse = await resend.emails.send({
             from: 'Private Message <onboarding@resend.dev>',
             to: [email],
             subject: 'Private Message Verification Code',
             react: VerificationEmail({ username, otp: verifyCode }),
         });
+
+        console.log("Email response:", emailResponse);
+
+    // Check if the email response contains an error
+    if (emailResponse && emailResponse.error) {
+        let errorMessage = typeof emailResponse.error === 'string' ? emailResponse.error : JSON.stringify(emailResponse.error);
+        throw new Error(errorMessage);
+    }
         console.log("Email sent successfully");
         return { success: true, message: "verification email sent successfully" };
     } catch (emailError) {
