@@ -3,12 +3,18 @@ import UserModel from "@/model/User";
 import { z } from "zod";
 import { userNameValidation } from "@/schemas/signUpSchema";
 
+
 const UsernameQuerySchema = z.object({
     username: userNameValidation
 });
 
-export async function GET (request: Request) {
-
+export async function handler(request: Request) {
+    if (request.method !== 'GET') {
+        return new Response(
+            JSON.stringify({ success: false, message: 'Only GET method is allowed on this endpoint' }),
+            { status: 405, headers: { 'Content-Type': 'application/json' } }
+        );
+    }
     await dbConnect();
 
     try {
@@ -52,9 +58,4 @@ export async function GET (request: Request) {
     }
 
 }
-export async function POST(response: Response) {
-    return Response.json(
-      { success: false, message: 'POST method is not allowed on this endpoint' },
-      { status: 405 }
-    );
-  }
+export { handler as GET, handler as POST, handler as PUT, handler as DELETE, handler as PATCH };
