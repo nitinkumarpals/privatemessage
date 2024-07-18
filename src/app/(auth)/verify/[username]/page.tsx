@@ -1,7 +1,6 @@
 'use client'
 import { Button } from '@/components/ui/button';
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
-import { Input } from '@/components/ui/input';
 import { toast, useToast } from '@/components/ui/use-toast';
 import { verifySchema } from '@/schemas/verifySchema';
 import { ApiResponse } from '@/types/ApiResponse';
@@ -11,6 +10,7 @@ import { useParams, useRouter } from 'next/navigation'
 import React from 'react'
 import { useForm } from 'react-hook-form';
 import * as z from 'zod';
+import { InputOTP, InputOTPGroup, InputOTPSlot, } from "@/components/ui/input-otp"
 
 const VerifyAccount = () => {
     const router = useRouter();
@@ -64,9 +64,21 @@ const VerifyAccount = () => {
                                 <FormItem>
                                     <FormLabel>Verification Code</FormLabel>
                                     <FormControl>
-                                        <Input placeholder="code" {...field} />
+                                        <InputOTP maxLength={6} {...field}>
+                                            <InputOTPGroup>
+                                                <InputOTPSlot index={0} />
+                                                <InputOTPSlot index={1} />
+                                                <InputOTPSlot index={2} />
+                                                <InputOTPSlot index={3} />
+                                                <InputOTPSlot index={4} />
+                                                <InputOTPSlot index={5} />
+                                            </InputOTPGroup>
+                                        </InputOTP>
                                     </FormControl>
-                                    <FormMessage />
+                                    <FormDescription>
+                                        Enter your one-time password.
+                                    </FormDescription>
+                                    <FormMessage  />
                                 </FormItem>
                             )}
                         />
