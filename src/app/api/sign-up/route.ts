@@ -70,7 +70,7 @@ export async function POST(request: Request) {
         if (!emailResponse.success) {
             console.log("Failed to send verification email");
             return NextResponse.json(
-                { success: false, message: "failed to send verification email" }, { status: 500 }
+                { success: false, message: "Failed to send verification email" }, { status: 500 }
             );
         }
 

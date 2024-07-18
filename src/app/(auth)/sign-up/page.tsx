@@ -1,6 +1,6 @@
 'use client'
 import { zodResolver } from "@hookform/resolvers/zod"
-import { Form, FormProvider, useForm } from "react-hook-form"
+import { useForm } from "react-hook-form"
 import * as z from "zod"
 import Link from "next/link"
 import React, { useEffect, useState } from 'react'
@@ -10,7 +10,7 @@ import { useRouter } from "next/navigation"
 import { signUpSchema } from "@/schemas/signUpSchema"
 import axios, { AxiosError } from "axios"
 import { ApiResponse } from "@/types/ApiResponse"
-import { FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
 import { Loader2 } from "lucide-react"
 import { Button } from "@/components/ui/button"
@@ -41,10 +41,7 @@ useEffect(() => {
         try {
           const response = await axios.get<ApiResponse>(
             `/api/check-username-unique?username=${username}`
-          );
-          console.log("response.data", response.data.message);
-          
-          
+          );          
           setUsernameMessage(response.data.message);
         } catch (error) {
           const axiosError = error as AxiosError<ApiResponse>;
@@ -69,7 +66,7 @@ useEffect(() => {
           description: response.data.message
         })
       }
-      router.replace(`/verify-code/${username}`);
+      router.replace(`/verify/${username}`);
     } catch (error) {
       console.error("error signing up", error);
       const axiosError = error as AxiosError<ApiResponse>;
@@ -93,7 +90,7 @@ useEffect(() => {
           </h1>
           <p className="mb-4">Sign up to start your anonymous adventure</p>
         </div>
-        <FormProvider {...form}>
+        <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
             <FormField
               name="username"
@@ -164,7 +161,7 @@ useEffect(() => {
               }
             </Button>
           </form>
-        </FormProvider>
+        </Form>
         <div className="text-center mt-4">
           <p>
             Already a member?{' '}
