@@ -1,8 +1,8 @@
 import { NextAuthOptions } from "next-auth";
 import CredentialsProvider from 'next-auth/providers/credentials';
 import bcrypt from "bcryptjs";
-import  dbConnect  from "@/lib/dbConnect";
-import  UserModel  from "@/model/User";
+import dbConnect from "@/lib/dbConnect";
+import UserModel from "@/model/User";
 
 export const authOptions: NextAuthOptions = {
     providers: [
@@ -10,42 +10,42 @@ export const authOptions: NextAuthOptions = {
             id: 'credentials',
             name: 'Credentials',//Here  name is used for showing what text to show on actual page So page will be :-  Sign in with Credentials.
             credentials: {
-                email: { label: "Email", type: "text"},
-                password: { label: "Password", type: "password"},
+                email: { label: "Email", type: "text" },
+                password: { label: "Password", type: "password" },
             },
-        async authorize(credentials: any): Promise<any> {
-            await dbConnect();
-            try {
-                const user = await UserModel.findOne({
-                    $or:[
-                        {email: credentials.identifier.email},
-                        {username: credentials.identifier.username}
-                    ],
-                });
-                if(!user){
-                    throw new Error('No user found with this email');
+            async authorize(credentials: any): Promise<any> {
+                await dbConnect();
+                try {
+                    const user = await UserModel.findOne({
+                        $or: [
+                            { email: credentials.identifier },
+                            { username: credentials.identifier }
+                        ],
+                    });
+                    if (!user) {
+                        throw new Error('No user found with this email');
+                    }
+
+                    if (!user.isVerified) {
+                        throw new Error('Please verify your account before logging in');
+                    }
+                    const isPasswordCorrect = await bcrypt.compare(credentials.password, user.password);
+                    if (isPasswordCorrect) {
+                        return user;//Any object returned will be saved in `user` property of the JWT
+
+                    } else {
+                        throw new Error('Incorrect password');
+                    }
+                } catch (err: any) {
+                    throw new Error(err);
                 }
-
-                if (!user.isVerified) {
-                    throw new Error('Please verify your account before logging in');
-                  }
-                const isPasswordCorrect = await bcrypt.compare(credentials.password, user.password);
-                if (isPasswordCorrect) {
-                    return user;//Any object returned will be saved in `user` property of the JWT
-
-                  } else {
-                    throw new Error('Incorrect password');
-                  }   
-            } catch (err: any) {
-                throw new Error(err);
-            }
-        },
-     }),//github providers
+            },
+        }),//github providers
     ],
     callbacks: {
         async jwt({ token, user }) {
-            
-            if(user){
+
+            if (user) {
                 token._id = user._id?.toString();
                 token.isVerified = user.isVerified;
                 token.isAcceptingMessages = user.isAcceptingMessages;
@@ -55,9 +55,9 @@ export const authOptions: NextAuthOptions = {
             return token;
         },
 
-        async session({session, token}) {
+        async session({ session, token }) {
 
-            if(token){
+            if (token) {
                 session.user._id = token._id;
                 session.user.isVerified = token.isVerified;
                 session.user.isAcceptingMessages = token.isAcceptingMessages;
@@ -67,10 +67,10 @@ export const authOptions: NextAuthOptions = {
             return session;
         }
     },
-    pages:{
+    pages: {
         signIn: '/sign-in'
     },
-    session:{
+    session: {
         strategy: 'jwt'
     },
     secret: process.env.NEXTAUTH_SECRET,
