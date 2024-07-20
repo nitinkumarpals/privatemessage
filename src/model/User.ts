@@ -15,7 +15,10 @@ const messageSchema: Schema<Message> = new Schema({
         required: true,
         default: Date.now
     }
-})
+})//When you create such a schema in a document, it's not just messages that are going into the array; entire documents are going into the array. Therefore, it is very important to visualize this in MongoDB, showing that entire documents are going into the array, not just values. In our case, entire documents are being inserted.
+
+
+
 
 export interface User extends Document {
     username: string;

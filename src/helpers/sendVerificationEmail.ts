@@ -1,6 +1,16 @@
-import { resend } from "@/lib/resend";
-import VerificationEmail from "../../emails/VerificationEmail";
-import { ApiResponse } from "@/types/ApiResponse"; 
+import nodemailer from 'nodemailer';
+import { ApiResponse } from "@/types/ApiResponse";
+import { render } from '@react-email/components';
+import VerificationEmail from '../../emails/VerificationEmail';
+const transporter = nodemailer.createTransport({
+    host: "smtp.gmail.com",// Replace with your SMTP server details
+    port: 465,
+    secure: true, // Use `true` for port 465, `false` for other ports
+    auth: {
+        user: process.env.EMAIL_USER, // Replace with your SMTP user
+        pass: process.env.EMAIL_PASS, // Replace with your SMTP password
+    },
+});
 
 export async function sendVerificationEmail(
     email: string,
@@ -8,30 +18,23 @@ export async function sendVerificationEmail(
     verifyCode: string
 ): Promise<ApiResponse> {
     try {
-        const apiKey = process.env.RESEND_API_KEY;
-        if (!apiKey) {
-            throw new Error("API key not set");
-        }
         console.log("Sending email to:", email);
 
-        const emailResponse = await resend.emails.send({
-            from: 'Private Message <onboarding@resend.dev>',
-            to: [email],
+        // Generate the HTML content for the email
+        const emailHtml = render(VerificationEmail({ username, otp: verifyCode }));
+
+        // Send mail with defined transport object
+        const info = await transporter.sendMail({
+            from: "Private Message", // Replace with your sender address
+            to: email,
             subject: 'Private Message Verification Code',
-            react: VerificationEmail({ username, otp: verifyCode }),
+            html: emailHtml,
         });
 
-        console.log("Email response:", emailResponse);
-
-    // Check if the email response contains an error
-    if (emailResponse && emailResponse.error) {
-        let errorMessage = typeof emailResponse.error === 'string' ? emailResponse.error : JSON.stringify(emailResponse.error);
-        throw new Error(errorMessage);
-    }
-        console.log("Email sent successfully");
-        return { success: true, message: "verification email sent successfully" };
+        console.log("Email sent successfully:", email);
+        return { success: true, message: "Verification email sent successfully" };
     } catch (emailError) {
         console.error("Error sending verification email:", emailError);
-        return { success: false, message: "failed to send verification email" };
+        return { success: false, message: "Failed to send verification email" };
     }
 }
