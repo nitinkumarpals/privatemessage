@@ -9,8 +9,6 @@ export async function DELETE(request: Request, { params }: { params: { messageId
     dbConnect();
     const session = await getServerSession(authOptions);
     const user: User = session?.user as User;
-    // We have converted the user to a string in src/app/api/auth/[...nextauth]/options.ts
-    //const userId = user._id?.toString(); it will have problem in aggregation pipeline
     if(!session || !session.user){
         return Response.json({ success: false, message: 'Not authenticated' }, { status: 401 });
     }

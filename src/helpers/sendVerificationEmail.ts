@@ -3,12 +3,12 @@ import { ApiResponse } from "@/types/ApiResponse";
 import { render } from '@react-email/components';
 import VerificationEmail from '../../emails/VerificationEmail';
 const transporter = nodemailer.createTransport({
-    host: "smtp.gmail.com",// Replace with your SMTP server details
+    host: "smtp.gmail.com",
     port: 465,
-    secure: true, // Use `true` for port 465, `false` for other ports
+    secure: true, 
     auth: {
-        user: process.env.EMAIL_USER, // Replace with your SMTP user
-        pass: process.env.EMAIL_PASS, // Replace with your SMTP password
+        user: process.env.EMAIL_USER,
+        pass: process.env.EMAIL_PASS, 
     },
 });
 
@@ -20,12 +20,10 @@ export async function sendVerificationEmail(
     try {
         console.log("Sending email to:", email);
 
-        // Generate the HTML content for the email
         const emailHtml = render(VerificationEmail({ username, otp: verifyCode }));
 
-        // Send mail with defined transport object
         const info = await transporter.sendMail({
-            from: "Private Message", // Replace with your sender address
+            from: "Private Message", 
             to: email,
             subject: 'Private Message Verification Code',
             html: emailHtml,
