@@ -8,6 +8,9 @@ import { Button } from "@/components/ui/button"
 const Navbar = () => {
     const { data: session } = useSession();
     const user: User = session?.user as User;
+    const firstLetter = (user?.username || user?.email)?.charAt(0).toUpperCase();
+    const lastName = (user?.username || user?.email)?.slice(1);
+    const userName = `${firstLetter}${lastName}`;
 
   return (
     <nav className='p-4 md:p-6 shadow-md'>
@@ -16,7 +19,7 @@ const Navbar = () => {
             {
                 session?  (
                     <>
-                        <span className='mr-4'>Welcome, {user?.username || user?.email}</span>
+                        <span className='mr-4'>Welcome, {userName}</span>
                         <Button className='w-full md:w-auto' onClick={() => signOut()}>Logout</Button>
                     </>
                 ) : (

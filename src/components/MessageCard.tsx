@@ -7,6 +7,7 @@ import {
     CardHeader,
     CardTitle,
 } from "@/components/ui/card"
+import dayjs from 'dayjs';
 
 import {
     AlertDialog,
@@ -58,10 +59,17 @@ const MessageCard = ({ message, onMessageDelete }: MessageCardProps) => {
     };
 
     return (
-        <Card>
-            <CardHeader>
-                <CardTitle>Card Title</CardTitle>
-                <AlertDialog>
+        <Card className="card-bordered z-10 dark:bg-black/40">
+            <CardHeader >
+                <div className="flex justify-between items-center">
+                <CardTitle>
+                    {message.content
+                        .split(' ')
+                        .slice(0, 2)
+                        .map((word, index) => (index === 0 ? word.charAt(0).toUpperCase() + word.slice(1) : word))
+                        .join(' ')}
+                </CardTitle>
+                <AlertDialog  >
                     <AlertDialogTrigger asChild>
                         <Button variant="destructive"><Trash2 /></Button>
                     </AlertDialogTrigger>
@@ -79,13 +87,13 @@ const MessageCard = ({ message, onMessageDelete }: MessageCardProps) => {
                         </AlertDialogFooter>
                     </AlertDialogContent>
                 </AlertDialog>
-                <CardDescription>Card Description</CardDescription>
+                </div>
             </CardHeader>
             <CardContent>
-                <p>Card Content</p>
+                <p>{message.content}</p>
             </CardContent>
             <CardFooter>
-                <p>Card Footer</p>
+                <p> {dayjs(message.createdAt).format('MMM D, YYYY h:mm A')}</p>
             </CardFooter>
         </Card>
 
