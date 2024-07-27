@@ -38,7 +38,7 @@ export async function POST(request: Request) {
     }
 }
 
-export async function GET(response: Response) {
+export async function GET(request: Request) {
     return Response.json(
         { success: false, message: 'GET method is not allowed on this endpoint' },
         { status: 405 }

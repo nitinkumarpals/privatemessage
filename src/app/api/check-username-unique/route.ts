@@ -7,14 +7,8 @@ import { userNameValidation } from "@/schemas/signUpSchema";
 const UsernameQuerySchema = z.object({
     username: userNameValidation
 });
-
-export async function handler(request: Request) {
-    if (request.method !== 'GET') {
-        return new Response(
-            JSON.stringify({ success: false, message: 'Only GET method is allowed on this endpoint' }),
-            { status: 405, headers: { 'Content-Type': 'application/json' } }
-        );
-    }
+export async function GET(request: Request) {
+    
     await dbConnect();
 
     try {
@@ -25,7 +19,6 @@ export async function handler(request: Request) {
         };
 
         const result = UsernameQuerySchema.safeParse(queryParams);
-        console.log(result); //todo remove console
         if(!result.success){
             const usernameErrors = result.error.format()._errors || [];
             return Response.json({
@@ -58,4 +51,3 @@ export async function handler(request: Request) {
     }
 
 }
-export { handler as GET, handler as POST, handler as PUT, handler as DELETE, handler as PATCH };
