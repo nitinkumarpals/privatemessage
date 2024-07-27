@@ -1,5 +1,5 @@
 "use client"
-import { Form, FormControl, FormField, FormItem, FormLabel } from '@/components/ui/form'
+import { Form, FormControl, FormField, FormItem, FormLabel,FormMessage } from '@/components/ui/form'
 import { CardHeader, CardContent, Card } from '@/components/ui/card';
 import { messageSchema } from '@/schemas/messageSchema';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -33,7 +33,7 @@ const page = () => {
   const onSubmit = async (data: z.infer<typeof messageSchema>) => {
     setIsLoading(true);
     try {
-      const response = await axios.post("/api/send-message", {
+      const response = await axios.post<ApiResponse>("/api/send-message", {
         content: data.content,
         username
       });
@@ -101,6 +101,7 @@ const page = () => {
             <FormField
               control={control}
               name="content"
+
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Send Anonymous Message to @{username}</FormLabel>
@@ -111,17 +112,18 @@ const page = () => {
                       {...field}
                     />
                   </FormControl>
+                  <FormMessage />
                 </FormItem>
               )} />
             <div className='flex justify-center'>
-            {isLoading ? (
-              <Button disabled>
-                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                Please Wait
-              </Button>
-            ) : (
-              <Button type="submit" disabled={isLoading || !messageContent}>Send</Button>
-            )}
+              {isLoading ? (
+                <Button disabled>
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                  Please Wait
+                </Button>
+              ) : (
+                <Button type="submit" disabled={isLoading || !messageContent}>Send</Button>
+              )}
             </div>
           </form>
         </Form>
@@ -160,11 +162,11 @@ const page = () => {
         </div>
         <Separator className="my-6" />
         <div className="text-center">
-        <div className="mb-4">Get Your Message Board</div>
-        <Link href={'/sign-up'}>
-          <Button>Create Your Account</Button>
-        </Link>
-      </div>
+          <div className="mb-4">Get Your Message Board</div>
+          <Link href={'/sign-up'}>
+            <Button>Create Your Account</Button>
+          </Link>
+        </div>
       </div>
     </div>
   )
