@@ -13,7 +13,7 @@ Welcome to **Private Messages**! This repository allows users to send and receiv
 
 ## 🚀 Getting Started
 
-You can start using Private Messages right away by visiting [privatemessagesvercel.com](https://privatemessagesvercel.com) 🌐.
+You can start using Private Messages right away by visiting [https://privatemessage-theta.vercel.app/](https://privatemessage-theta.vercel.app/) 🌐.
 
 
 ### 📥 Prerequisites
