@@ -15,7 +15,7 @@ import { Input } from "@/components/ui/input"
 import { Loader2 } from "lucide-react"
 import { Button } from "@/components/ui/button"
 
-const page = () => {
+const Page = () => {
   const [username, setUsername] = useState("");
   const [usernameMessage, setUsernameMessage] = useState("");//username available or not
   const [isCheckingUsername, setIsCheckingUsername] = useState(false);
@@ -179,4 +179,4 @@ useEffect(() => {
   )
 }
 
-export default page
+export default Page

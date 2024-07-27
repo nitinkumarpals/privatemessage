@@ -21,7 +21,7 @@ const parseMessagesString = (messageString: string): string[] => {
   return messageString.split('||');
 }
 const initialMessagesString = "What's your favorite movie?||Which city have you traveled to so far?||What do you want to achieve in life?";
-const page = () => {
+const Page = () => {
 
   const params = useParams<{ username: string }>();
   const username = params.username;
@@ -172,4 +172,4 @@ const page = () => {
   )
 }
 
-export default page
+export default Page
