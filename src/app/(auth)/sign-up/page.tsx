@@ -82,8 +82,8 @@ useEffect(() => {
   }
 
   return (
-    <div className="flex justify-center items-center min-h-screen bg-gray-800">
-      <div className="w-full max-w-md p-8 space-y-8 bg-white rounded-lg shadow-md">
+    <div className="flex justify-center items-center min-h-screen bg-gray-800  dark:bg-slate-800">
+      <div className="w-full max-w-md p-8 space-y-8 bg-white rounded-lg shadow-md dark:bg-slate-700">
         <div className="text-center">
           <h1 className="text-4xl font-extrabold tracking-tight lg:text-5xl mb-6">
             Join Private Feedback
@@ -100,6 +100,7 @@ useEffect(() => {
                   <FormLabel>Username</FormLabel>
                   <FormControl>
                     <Input
+                      placeholder="Username"
                       {...field}
                       onChange={(e) => {
                         field.onChange(e);
@@ -127,6 +128,7 @@ useEffect(() => {
                   <FormLabel>Email</FormLabel>
                   <FormControl>
                     <Input
+                      placeholder="Email"
                       {...field}
                     //  here at the time of typing i am doing nothing on change instead once you filled full form after that when submit button will be clicked it automatically pick all the values from all the fields
                     />
@@ -143,7 +145,9 @@ useEffect(() => {
                 <FormItem>
                   <FormLabel>Password</FormLabel>
                   <FormControl>
-                    <Input type="password"
+                    <Input 
+                    placeholder="Password"
+                    type="password"
                       {...field} name="password"
                     />
                   </FormControl>
@@ -165,7 +169,7 @@ useEffect(() => {
         <div className="text-center mt-4">
           <p>
             Already a member?{' '}
-            <Link href="/sign-in" className="text-blue-600 hover:text-blue-800">
+            <Link href="/sign-in" className="text-blue-600 hover:text-blue-800  dark:text-blue-400 dark:hover:text-blue-300">
               Sign in
             </Link>
           </p>

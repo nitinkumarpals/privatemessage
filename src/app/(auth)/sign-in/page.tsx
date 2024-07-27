@@ -72,8 +72,8 @@ const page = () => {
   }
 
   return (
-    <div className="flex justify-center items-center min-h-screen bg-gray-800">
-      <div className="w-full max-w-md p-8 space-y-8 bg-white rounded-lg shadow-md">
+    <div className="flex justify-center items-center min-h-screen bg-gray-800 dark:bg-slate-800">
+      <div className="w-full max-w-md p-8 space-y-8 bg-white rounded-lg shadow-md dark:bg-slate-700">
         <div className="text-center">
           <h1 className="text-4xl font-extrabold tracking-tight lg:text-5xl mb-6">
             Join Private Feedback
@@ -107,7 +107,9 @@ const page = () => {
                 <FormItem>
                   <FormLabel>Password</FormLabel>
                   <FormControl>
-                    <Input type="password"
+                    <Input 
+                    placeholder="Password"
+                    type="password"
                       {...field} name="password"
                     />
                   </FormControl>
@@ -129,7 +131,7 @@ const page = () => {
         <div className="text-center mt-4">
           <p>
             Already a member?{' '}
-            <Link href="/sign-up" className="text-blue-600 hover:text-blue-800">
+            <Link href="/sign-up" className="text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300">
               Sign up
             </Link>
           </p>

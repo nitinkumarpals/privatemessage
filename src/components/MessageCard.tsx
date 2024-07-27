@@ -71,7 +71,7 @@ const MessageCard = ({ message, onMessageDelete }: MessageCardProps) => {
                 </CardTitle>
                 <AlertDialog  >
                     <AlertDialogTrigger asChild>
-                        <Button variant="destructive"><Trash2 /></Button>
+                        <Button className='bg-red-600' variant="destructive"><Trash2 className="h-4 w-4 "  /></Button>
                     </AlertDialogTrigger>
                     <AlertDialogContent>
                         <AlertDialogHeader>
