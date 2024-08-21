@@ -62,13 +62,13 @@ const MessageCard = ({ message, onMessageDelete }: MessageCardProps) => {
         <Card className="card-bordered z-10 dark:bg-black/40">
             <CardHeader >
                 <div className="flex justify-between items-center">
-                <CardTitle>
+                <CardDescription className="text-2xl dark:text-white text-black ">
                     {message.content
                         .split(' ')
-                        .slice(0, 2)
+                        .slice(0)
                         .map((word, index) => (index === 0 ? word.charAt(0).toUpperCase() + word.slice(1) : word))
                         .join(' ')}
-                </CardTitle>
+                </CardDescription>
                 <AlertDialog  >
                     <AlertDialogTrigger asChild>
                         <Button className='bg-red-600' variant="destructive"><Trash2 className="h-4 w-4 "  /></Button>
@@ -89,10 +89,10 @@ const MessageCard = ({ message, onMessageDelete }: MessageCardProps) => {
                 </AlertDialog>
                 </div>
             </CardHeader>
-            <CardContent>
+            {/* <CardContent>
                 <p>{message.content}</p>
-            </CardContent>
-            <CardFooter>
+            </CardContent> */}
+            <CardFooter className="text-gray-400">
                 <p> {dayjs(message.createdAt).format('MMM D, YYYY h:mm A')}</p>
             </CardFooter>
         </Card>
